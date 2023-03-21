@@ -1,3 +1,3 @@
 #!/bin/sh
 
-cp -rv /source /runner/page
+cp -rv /source/src/* /runner/page/
