@@ -12,6 +12,7 @@ if [ $1 == 0 ]; then
 fi
 
 DATA=$(cat $LOG_PATH/request.log | head -n $1 | tail -n 1)
+DATA=$(echo $DATA | sed -e 's/\\x22/"/g' | sed -e 's/\\x0A//g')
 
 if [ "$(echo $DATA | cut -f 1 -d " ")" == "200" ]; then
         JSON="{"${DATA#*\{}
@@ -23,7 +24,7 @@ if [ "$(echo $DATA | cut -f 1 -d " ")" == "200" ]; then
         OWNER=$(echo $URL | rev | cut -f 2 -d "/" | rev)
         NAME=$(echo $URL | rev | cut -f 1 -d "/" | rev)
 
-        if ! [ echo $JSON | grep -q 'committer' ]; then # NEEDS EXPANDING
+        if ! echo $JSON | grep -q 'committer'; then # NEEDS EXPANDING
                 rm -rf $PAGES_PATH/$OWNER/$NAME
                 exit 0
         fi
