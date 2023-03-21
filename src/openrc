@@ -1,0 +1,28 @@
+#!/usr/bin/openrc-run
+
+supervisor=supervise-daemon
+
+runpath=${RUN_PATH:-/server/ci}
+
+depend() {
+	need localmount net
+}
+
+start() {
+	echo -n "Starting:"
+	if [ "$(podman ps -aq -f name='pipeline')" ]; then
+		podman stop pipeline > /dev/null
+	fi
+
+	if [ "$(podman ps -aq -f name='pipeline')" ]; then
+		podman start pipeline
+	else
+		$runpath/bootup
+	fi
+}
+
+stop() {
+	if [ "$(podman ps -aq -f name='pipeline')" ]; then
+		podman stop pipeline > /dev/null
+	fi
+}

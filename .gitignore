@@ -1,0 +1,6 @@
+src/shared/
+src/logging/
+
+src/*.log
+src/secret
+src/authorized

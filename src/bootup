@@ -1,0 +1,13 @@
+#!/bin/sh
+
+PAGES_PATH=/server/pages
+SCRIPT_PATH=$(dirname $(realpath $0))
+
+podman build -t ci/pipeline --no-cache $SCRIPT_PATH/pipeline
+
+podman run --privileged \
+        --name pipeline \
+        -d \
+        -v $SCRIPT_PATH:/ci \
+        -v $PAGES_PATH:/pages \
+        ci/pipeline
