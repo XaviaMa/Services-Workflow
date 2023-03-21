@@ -5,6 +5,6 @@ LOG_PATH=/ci/request.log
 
 trap "echo Shutdown!; exit 0" SIGINT SIGTERM
 
-while inotifywait -e close_write $LOG_PATH; do
+while inotifywait -e modify $LOG_PATH; do
         sh $SCRIPT_PATH/builder.sh $(X=$(wc -l $LOG_PATH | cut -f 1 -d " "); let "X=X+1"; echo $X) &
 done
