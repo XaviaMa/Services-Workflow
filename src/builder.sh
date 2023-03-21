@@ -20,7 +20,7 @@ if [ "$(echo $DATA | cut -f 1 -d " ")" == "200" ]; then
         JSON="}"${JSON#*\}}
         JSON=$(echo $JSON | rev)
 
-        URL=$(echo $JSON | awk -F 'repository' '{print $2}' - | awk -F 'clone_url' '{print $2}' - | cut -f 3 -d "\"" | cut -f 1 -d ".")
+        URL=$(echo $JSON | awk -F 'repository' '{print $2}' - | awk -F 'html_url' '{print $2}' - | cut -f 3 -d "\"")
         OWNER=$(echo $URL | rev | cut -f 2 -d "/" | rev)
         NAME=$(echo $URL | rev | cut -f 1 -d "/" | rev)
 
