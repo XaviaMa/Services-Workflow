@@ -63,12 +63,12 @@ if [ "$(echo $DATA | cut -f 1 -d " ")" == "200" ]; then
                 mkdir -p $P
                 rm -rf $P
                 mv $LOG_PATH/shared/$COMMIT/page $P
+
+                if [ -f $SCRIPT_PATH/postscript/$OWNER-$NAME.sh ]; then
+                        sh $SCRIPT_PATH/postscript/$OWNER-$NAME.sh $PAGES_PATH/$OWNER/$NAME /ci/shared/$COMMIT
+                fi
         else
                 rm -rf $PAGES_PATH/$OWNER/$NAME
-        fi
-
-        if [ -f $SCRIPT_PATH/postscript/$OWNER-$NAME.sh ]; then
-                sh $SCRIPT_PATH/postscript/$OWNER-$NAME.sh $PAGES_PATH/$OWNER/$NAME /ci/shared/$COMMIT
         fi
 
         chown -R root:root $LOG_PATH/shared/$COMMIT

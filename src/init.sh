@@ -1,3 +1,4 @@
 #!/bin/sh
 
-cp -rv /source /runner/page
+mkdir -v /runner/page/
+cp -rv /source/src/* /runner/page/
