@@ -16,6 +16,7 @@ fi
 if [ -d /etc/init.d ]; then
         cp $SCRIPT_PATH/src/openrc /etc/init.d/pipeline
         cp $SCRIPT_PATH/src/openrc.conf /etc/conf.d/pipeline
+        chmod +x /etc/init.d/pipeline
 fi
 
 cp -r src/* $INSTALL_PATH/
