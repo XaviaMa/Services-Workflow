@@ -1,3 +1,3 @@
 #!/bin/sh
 
-cp -r $1/* /ci/*
+cp -r $1/page/* /ci/*
