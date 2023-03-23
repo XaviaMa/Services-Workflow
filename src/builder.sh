@@ -51,7 +51,9 @@ if [ "$(echo $DATA | cut -f 1 -d " ")" == "200" ]; then
 
         exec 3>&1
         exec 2>&1
-        $PODMAN_EXECUTOR run --name "$COMMIT" -v /ci/shared/$COMMIT:/data --rm -v /ci:/runner ci/container runner $URL $COMMIT $COMMITTER $OWNER $DOMAIN > $LOG_PATH/logging/$OWNER/$NAME/$COMMIT.log
+
+        $PODMAN_EXECUTOR container prune -f
+        $PODMAN_EXECUTOR run --name "$COMMIT" -v /ci/shared/$COMMIT:/runner --rm ci/container runner $URL $COMMIT $COMMITTER $OWNER $DOMAIN > $LOG_PATH/logging/$OWNER/$NAME/$COMMIT.log
 
         cp $LOG_PATH/logging/$OWNER/$NAME/$COMMIT.log $LOG_PATH/logging/$OWNER/$NAME/latest.log
 
