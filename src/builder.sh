@@ -31,7 +31,7 @@ if [ "$(echo $DATA | cut -f 1 -d " ")" == "200" ]; then
 
         COMMITTER=$(echo $JSON | awk -F 'committer' '{print $2}' - | awk -F 'username' '{print $2}' - | cut -f 3 -d "\"") 2>&1 3>&1 > /dev/null
         
-        if ! $(echo $COMMITTER); then
+        if ! [ -z $COMMITTER ]; then
                 exit 0
         fi
         
