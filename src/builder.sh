@@ -30,11 +30,6 @@ if [ "$(echo $DATA | cut -f 1 -d " ")" == "200" ]; then
         fi
 
         COMMITTER=$(echo $JSON | awk -F 'committer' '{print $2}' - | awk -F 'username' '{print $2}' - | cut -f 3 -d "\"") 2>&1 3>&1 > /dev/null
-        
-        if ! [ -z $COMMITTER ]; then
-                exit 0
-        fi
-        
         if ! cat $CONF_PATH/authorized 2> /dev/null | grep -q $COMMITTER; then
             echo '403 '$COMMITTER' '$URL >> $LOG_PATH/denied.log # Deny unprivileged usernames
             exit 1
