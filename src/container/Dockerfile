@@ -16,3 +16,5 @@ COPY runner /usr/bin/
 RUN chmod +x /usr/bin/runner
 
 RUN apk add --no-cache git curl coreutils
+
+RUN git config --global http.sslVerify "false"
