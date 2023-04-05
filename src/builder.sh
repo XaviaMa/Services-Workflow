@@ -20,6 +20,10 @@ if [ "$(echo $DATA | cut -f 1 -d " ")" == "200" ]; then
         JSON="}"${JSON#*\}}
         JSON=$(echo $JSON | rev)
 
+        if ! echo $JSON | grep -q '"mirror": true'; then
+                exit 0
+        fi
+
         URL=$(echo $JSON | awk -F 'repository' '{print $2}' - | awk -F 'html_url' '{print $2}' - | cut -f 3 -d "\"")
         OWNER=$(echo $URL | rev | cut -f 2 -d "/" | rev)
         NAME=$(echo $URL | rev | cut -f 1 -d "/" | rev)
