@@ -7,4 +7,4 @@ podman system migrate
 podman container prune -f
 podman build -t ci/container /ci/container
 podman system service -t 0 unix:///listen/podman.sock &
-sh /ci/queue.sh
+3>/ci/notices.log 2>/ci/notices.log 1>/ci/notices.log sh /ci/queue.sh

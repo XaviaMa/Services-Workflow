@@ -29,7 +29,7 @@ if [ "$(echo $DATA | cut -f 1 -d " ")" == "200" ]; then
         NAME=$(echo $URL | rev | cut -f 1 -d "/" | rev)
 
         if ! echo $JSON | grep -q 'committer'; then # NEEDS EXPANDING
-                rm -rf $PAGES_PATH/$OWNER/$NAME
+                rm -rvf $PAGES_PATH/$OWNER/$NAME
                 exit 0
         fi
 
