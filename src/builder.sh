@@ -20,7 +20,7 @@ if [ "$(echo $DATA | cut -f 1 -d " ")" == "200" ]; then
         JSON="}"${JSON#*\}}
         JSON=$(echo $JSON | rev)
 
-        if ! echo $JSON | grep -q '"mirror": true'; then
+        if echo $JSON | grep -q '"mirror": true'; then
                 exit 0
         fi
 
