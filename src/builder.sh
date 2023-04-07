@@ -20,18 +20,20 @@ if [ "$(echo $DATA | cut -f 1 -d " ")" == "200" ]; then
         JSON="}"${JSON#*\}}
         JSON=$(echo $JSON | rev)
 
-        if echo $JSON | grep -q 'action": "del'; then
-                rm -rvf $PAGES_PATH/$OWNER/$NAME
-                exit 0
-        fi
-
-        if echo $JSON | grep -q '"is_admin": false'; then
-                exit 0
+        if echo $JSON | grep -q '"mirror": true'; then
+                if echo $JSON | grep -q '"fork": false'; then
+                        exit 0
+                fi
         fi
 
         URL=$(echo $JSON | awk -F 'repository' '{print $2}' - | awk -F 'html_url' '{print $2}' - | cut -f 3 -d "\"")
         OWNER=$(echo $URL | rev | cut -f 2 -d "/" | rev)
         NAME=$(echo $URL | rev | cut -f 1 -d "/" | rev)
+
+        if ! echo $JSON | grep -q 'committer'; then # NEEDS EXPANDING
+                rm -rvf $PAGES_PATH/$OWNER/$NAME
+                exit 0
+        fi
 
         COMMITTER=$(echo $JSON | awk -F 'committer' '{print $2}' - | awk -F 'username' '{print $2}' - | cut -f 3 -d "\"") 2>&1 3>&1 > /dev/null
         if ! cat $CONF_PATH/authorized 2> /dev/null | grep -q $COMMITTER; then
