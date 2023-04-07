@@ -26,7 +26,7 @@ if [ "$(echo $DATA | cut -f 1 -d " ")" == "200" ]; then
                 fi
         fi
 
-        URL=$(echo $JSON | awk -F 'repository' '{print $2}' - | awk -F 'html_url' '{print $2}' - | cut -f 3 -d "\"")
+        URL=$(echo $JSON | awk -F 'repository' '{print $2}' - | awk -F 'html_url' '{print ${@: -1}}' - | cut -f 3 -d "\"")
         OWNER=$(echo $URL | rev | cut -f 2 -d "/" | rev)
         NAME=$(echo $URL | rev | cut -f 1 -d "/" | rev)
 
@@ -35,7 +35,7 @@ if [ "$(echo $DATA | cut -f 1 -d " ")" == "200" ]; then
                 exit 0
         fi
 
-        COMMITTER=$(echo $JSON | awk -F 'committer' '{print $2}' - | awk -F 'username' '{print $2}' - | cut -f 3 -d "\"") 2>&1 3>&1 > /dev/null
+        COMMITTER=$(echo $JSON | awk -F 'committer' '{print $2}' - | awk -F 'username' '{print ${@: -1}}' - | cut -f 3 -d "\"") 2>&1 3>&1 > /dev/null
         if ! cat $CONF_PATH/authorized 2> /dev/null | grep -q $COMMITTER; then
             echo '403 '$COMMITTER' '$URL >> $LOG_PATH/denied.log # Deny unprivileged usernames
             exit 1
@@ -44,7 +44,7 @@ if [ "$(echo $DATA | cut -f 1 -d " ")" == "200" ]; then
         SECRET_POSITION=$(cat -n $CONF_PATH/authorized | grep $COMMITTER | awk -F ' ' '{print $1}' - )
         SECRET=$(cat $CONF_PATH/secret | head -n $SECRET_POSITION | tail -n 1)
         
-        COMMIT=$(echo $JSON | awk -F 'commits' '{print $2}' - | awk -F 'id' '{print $2}' - | cut -f 3 -d "\"")
+        COMMIT=$(echo $JSON | awk -F 'commits' '{print ${@: -1}}' - | awk -F 'id' '{print ${@: -1}}' - | cut -f 3 -d "\"")
 
         
         DOMAIN=$(echo $URL | cut -f 3 -d "/")
