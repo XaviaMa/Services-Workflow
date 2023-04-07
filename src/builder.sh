@@ -21,7 +21,7 @@ if [ "$(echo $DATA | cut -f 1 -d " ")" == "200" ]; then
         JSON=$(echo $JSON | rev)
 
         if echo $JSON | grep -q '"mirror": true'; then
-                if echo $JSON | grep -q '"fork": false'; then
+                if ! echo $JSON | grep -q '"fork": true'; then
                         exit 0
                 fi
         fi
