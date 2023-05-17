@@ -1,10 +1,17 @@
 #!/bin/sh
 
-trap "echo Master shutdown!; exit" SIGINT SIGTERM
+export pipe=/tmp/pipe
+
+function shutdown() {
+    rm -f $pipe
+    echo Master shutdown!
+    exit 0
+}
+
+trap "shutdown" SIGINT SIGTERM
 
 rm -rf /ci/shared/*
 podman system migrate
 podman container prune -f
 podman build -t ci/container /ci/container
-podman system service -t 0 unix:///listen/podman.sock &
-sh /ci/queue.sh > /ci/notices.log 2>&1 3>&1
+sh /ci/listener.sh 8080 /ci/builder.sh

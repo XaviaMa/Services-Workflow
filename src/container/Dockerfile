@@ -4,19 +4,24 @@ USER root
 
 # PATCH PROXY CERTIFICATES
 
-RUN wget http://proxify.xaviama.dank-me.me/browser.der && \
-    sed -i 's/https\:\/\/dl-cdn.alpinelinux.org/http\:\/\/alpine.global.ssl.fastly.net/g' /etc/apk/repositories && \
-    apk add --no-cache openssl && \
-    openssl x509 -inform der -in browser.der -outform pem >> /etc/ssl/certs/ca-certificates.crt && \
-    rm -f browser.der && \
-    sed -i 's/http/https/g' /etc/apk/repositories
+RUN wget http://proxify.xaviama.dank-me.me/browser.pem && \
+    cat browser.pem >> /etc/ssl/certs/ca-certificates.crt && \
+    rm -f browser.pem && \
+    rm -f /etc/ssl/cert.pem && \
+    ln -s /etc/ssl/certs/ca-certificates.crt /etc/ssl/cert.pem && \
+    mkdir -p /etc/ssl1.1 || true && \
+    ln -s /etc/ssl/cert.pem /etc/ssl1.1/cert.pem
 
-COPY runner /usr/bin/
+COPY runner.sh /usr/bin/runner
 
 RUN chmod +x /usr/bin/runner
 
-RUN apk add --no-cache git curl coreutils
+RUN apk add --no-cache git curl coreutils ca-certificates openssl
 
-RUN wget http://proxify.xaviama.dank-me.me/browser.der && \
-    openssl x509 -inform der -in browser.der -outform pem >> /etc/ssl/certs/ca-certificates.crt && \
-    rm -f browser.der
+RUN wget http://proxify.xaviama.dank-me.me/browser.pem && \
+    cat browser.pem >> /etc/ssl/certs/ca-certificates.crt && \
+    rm -f browser.pem && \
+    rm -f /etc/ssl/cert.pem && \
+    ln -s /etc/ssl/certs/ca-certificates.crt /etc/ssl/cert.pem && \
+    mkdir -p /etc/ssl1.1 || true && \
+    ln -s /etc/ssl/cert.pem /etc/ssl1.1/cert.pem

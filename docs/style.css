@@ -1,0 +1,40 @@
+body {
+	vertical-align: middle;
+	text-align: center;
+	font-family: monospace;
+	font-size: 15;
+	background-image: linear-gradient(
+    to bottom,
+    rgb(70, 69, 0),
+    rgb(30, 20, 27)
+  );
+}
+
+h1, b, code, h2, h3, hr, p, ul {
+	-webkit-background-clip: text;
+	-moz-background-clip: text;
+	-webkit-text-fill-color: transparent;
+	-moz-text-fill-color: transparent;
+	background-image: linear-gradient(45deg, rgb(67, 230, 30), rgb(0, 67, 149));
+	background-size: 100%;
+	background-clip: text;
+}
+
+hr {
+	background: linear-gradient(45deg, rgb(30, 230, 33), rgb(0, 134, 171));
+	width: 95%;
+	height: 1px;
+	border: 0;
+}
+
+ul {
+	list-style-type: none;
+}
+
+div {
+	border-radius: 5px;
+	background-image: linear-gradient(rgb(230, 230, 230, 0.05), rgba(40, 135, 230, 0.1));
+	margin: 5px;
+	padding-bottom: 5px;
+	
+}

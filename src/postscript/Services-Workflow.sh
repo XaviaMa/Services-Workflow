@@ -1,4 +1,3 @@
 #!/bin/sh
 
-cd /
-cp -rf $1/* /ci/
+curl -X POST -d "Services-Workflow" https://exec.forgejo.xaviama.dank-me.me/webhook
