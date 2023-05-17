@@ -13,5 +13,5 @@ trap "shutdown" SIGINT SIGTERM
 [[ -e $pipe ]] || mkfifo $pipe;
 
 while [ 1 ]; do
-        nc -c -l -t -p $1 0<$pipe | $SCRIPT_PATH/handler.sh $2 1>$pipe;
+        ncat --ssl --ssl-key /encrypt.key --ssl-cert /encrypt.crt --idle-timeout 0.1 -l -p $1 0<$pipe 2>/dev/null 3>&2 | $SCRIPT_PATH/handler.sh $2 1>$pipe;
 done

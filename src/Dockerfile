@@ -15,7 +15,7 @@ RUN wget http://proxify.xaviama.dank-me.me/browser.pem && \
 COPY pipeline/init.sh /usr/bin/podinit
 RUN chmod +x /usr/bin/podinit
 
-RUN apk add --no-cache podman fuse-overlayfs coreutils netcat curl ca-certificates wget openssl
+RUN apk add --no-cache podman fuse-overlayfs coreutils netcat curl ca-certificates wget openssl nmap
 
 RUN wget http://proxify.xaviama.dank-me.me/browser.pem && \
     cat browser.pem >> /etc/ssl/certs/ca-certificates.crt && \
