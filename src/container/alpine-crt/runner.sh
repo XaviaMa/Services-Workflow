@@ -24,4 +24,19 @@ if ! [ -f /source/init.sh ]; then
     exit 1
 fi
 
+function shutdown() {
+    echo Master shutdown!
+    exit 0
+}
+
+trap "shutdown" SIGINT SIGTERM
+
+function error_shutdown() {
+    error=$?
+    echo "Process exited with $error - shutdown!"
+    exit $error
+}
+
+trap "error_shutdown" ERR
+
 sh /source/init.sh
